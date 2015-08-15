@@ -76,7 +76,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstaceState);
         locationHandler = new GpsLocationHandler(this);
         getAllBusinesses();
-        getAllCategories();
+        //getAllCategories();
     }
 
     public void getStuff() {
