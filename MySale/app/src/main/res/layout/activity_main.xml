@@ -23,6 +23,8 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="#333"
+            android:onClick="getStuff"
+            android:clickable="true"
             android:text="@string/header_text" />
 
         <TextView

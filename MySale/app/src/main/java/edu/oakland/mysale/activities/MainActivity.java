@@ -97,6 +97,10 @@ public class MainActivity extends ActionBarActivity {
         list.setAdapter(adapter);
     }
 
+    public void getStuff(View view) {
+        getStuff();
+    }
+
     public void getStuffAndThings(List<Gosale.CouponsByLocation> coupons) {
         if(!Objects.equals(coupons, null)) {
             for (int i = 0; i < coupons.size(); i++) {
