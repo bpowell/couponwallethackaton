@@ -123,9 +123,9 @@ public class MainActivity extends ActionBarActivity {
                 Log.i("Search(Erik)", "Query Text Change");
                 List<String> fuzzySearch = searchAllBusinessesNames(s);
 
-                final MatrixCursor c = new MatrixCursor(new String[]{ BaseColumns._ID, "businesses" });
-                for (int i=0; i<fuzzySearch.size(); i++) {
-                    c.addRow(new Object[] {i, fuzzySearch.get(i)});
+                final MatrixCursor c = new MatrixCursor(new String[]{BaseColumns._ID, "businesses"});
+                for (int i = 0; i < fuzzySearch.size(); i++) {
+                    c.addRow(new Object[]{i, fuzzySearch.get(i)});
                     searchAdapter.changeCursor(c);
                 }
                 return false;
@@ -222,6 +222,7 @@ public class MainActivity extends ActionBarActivity {
         } catch(Exception e) {
 
         }
+        return null;
     }
 
     @Override
