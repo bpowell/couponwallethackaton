@@ -12,13 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/page_header"
-        card_view:cardCornerRadius="0dp"
-        card_view:cardBackgroundColor="#ddd">
+        card_view:cardCornerRadius="0dp">
 
         <RelativeLayout
             android:id="@+id/header_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="#ccc">
 
             <LinearLayout
                 android:id="@+id/card_header"
@@ -39,13 +39,13 @@
                 <TextView
                     android:id="@+id/card_title"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="16dp"
                     android:layout_below="@id/card_image"
-                    android:text="Target"
+                    android:gravity="center_vertical"
                     android:textColor="#333"
-                    android:textSize="24sp" />
+                    android:textSize="24sp"
+                    android:elegantTextHeight="false" />
 
             </LinearLayout>
 

@@ -7,8 +7,7 @@
     tools:context="edu.oakland.mysale.activities.CouponDetailActivity"
     android:orientation="vertical">
 
-    <include layout="@layout/header_card"
-        android:id="@+id/include" />
+    <include layout="@layout/header_card" />
 
     <ImageView
         android:layout_width="match_parent"
