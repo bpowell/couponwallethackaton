@@ -3,6 +3,7 @@ package edu.oakland.mysale.activities;
 import android.animation.LayoutTransition;
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -90,10 +91,22 @@ public class MainActivity extends ActionBarActivity {
         list.setAdapter(adapter);
     }
 
+    public void getStuffAndThings(List<List<Gosale.CouponsByLocation>> coupons) {
+        CouponListAdapter adapter = new CouponListAdapter(
+                MainActivity.this,
+                list,
+                R.layout.header_card,
+                R.layout.info_card,
+                coupons
+        );
+
+        list.setAdapter(adapter);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        SearchView searchView = (SearchView) MenuItemCompat
+        final SearchView searchView = (SearchView) MenuItemCompat
                 .getActionView(menu.findItem(R.id.action_search));
 
         searchView.setSuggestionsAdapter(searchAdapter);
@@ -103,12 +116,22 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public boolean onSuggestionClick(int position) {
                 Log.i("Search(Erik)", "Suggestion Clicked");
+                Cursor cursor = (Cursor) searchAdapter.getItem(position);
+                int index = cursor.getColumnIndex("businesses");
+                String selectedString = cursor.getString(index);
+                getStuffAndThings(getCouponsFromSearchPattern(selectedString));
+                searchView.setQuery("", false);
                 return true;
             }
 
             @Override
             public boolean onSuggestionSelect(int position) {
                 Log.i("Search(Erik)", "Suggestion Selected");
+                Cursor cursor = (Cursor) searchAdapter.getItem(position);
+                int index = cursor.getColumnIndex("businesses");
+                String selectedString = cursor.getString(index);
+                getStuffAndThings(getCouponsFromSearchPattern(selectedString));
+                searchView.setQuery("", false);
                 return true;
             }
         });
@@ -116,6 +139,9 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 Log.i("Search(Erik)", "Query Text Submit");
+                String selectedString = s;
+                getStuffAndThings(getCouponsFromSearchPattern(selectedString));
+                searchView.setQuery("", false);
                 return false;
             }
 
