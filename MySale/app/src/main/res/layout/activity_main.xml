@@ -25,7 +25,7 @@
             android:textColor="#333"
             android:onClick="getStuff"
             android:clickable="true"
-            android:text="@string/header_text" />
+            android:text="Your Name Here" />
 
         <TextView
             android:id="@+id/header_subheader"
@@ -34,7 +34,7 @@
             android:layout_below="@id/header_title"
             android:textSize="16sp"
             android:textStyle="italic"
-            android:text="Here's some coupon love" />
+            android:text="Coupons you searched for" />
 
     </RelativeLayout>
 
