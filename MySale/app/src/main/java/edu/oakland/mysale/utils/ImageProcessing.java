@@ -37,4 +37,14 @@ public class ImageProcessing {
             Log.e("image", e.getMessage(), e);
         }
     }
+    public static void setImageFromUrl(ImageView imageView, String path) {
+        try {
+            Picasso.with(imageView.getContext())
+                    .load(path)
+                    .error(R.drawable.ic_broken_image)
+                    .into(imageView);
+        } catch (Exception e) {
+            Log.e("image", e.getMessage(), e);
+        }
+    }
 }

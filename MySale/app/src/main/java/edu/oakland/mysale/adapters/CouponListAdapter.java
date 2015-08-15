@@ -107,16 +107,19 @@ public class CouponListAdapter extends ArrayAdapter<Gosale.CouponsByLocation> {
             final View tranCell = cell;
             final String tempUrl = url;
             final String tempName = coupon.getBusinessName();
+            final String cuponUrl = coupon.getUrl();
 
             cell.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     String imagerUrl = tempUrl;
                     String companyName = tempName;
+                    String cu = cuponUrl;
                     Intent i = CouponDetailActivity_
                             .intent(context)
                             .imageUrl(imagerUrl)
                             .companyName(companyName)
+                            .couponURL(cu)
                             .get();
 
                     View sharedView = tranCell;
@@ -131,10 +134,12 @@ public class CouponListAdapter extends ArrayAdapter<Gosale.CouponsByLocation> {
                 public void onClick(View view) {
                     String imagerUrl = tempUrl;
                     String companyName = tempName;
+                    String cu = cuponUrl;
                     Intent i = CouponDetailActivity_
                             .intent(context)
                             .imageUrl(imagerUrl)
                             .companyName(companyName)
+                            .couponURL(cu)
                             .get();
 
                     View sharedView = tranCell;
