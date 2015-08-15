@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"time"
 
 	"github.com/bpowell/couponwallethackaton/gosale/cwconfig"
 )
@@ -89,7 +90,21 @@ func Init(lat, lon, radius float64) (*This, error) {
 		return &This{}, err
 	}
 
-	return &this, nil
+	ref := "2006-01-02 15:04:05"
+	var this2 This
+	for _, b := range this.couponsByLocation {
+		date, err := time.Parse(ref, b.Expires)
+		if err != nil {
+			fmt.Println(err)
+			return &This{}, err
+		}
+
+		if date.After(time.Now()) {
+			this2.couponsByLocation = append(this2.couponsByLocation, b)
+		}
+	}
+
+	return &this2, nil
 }
 
 func (this *This) Get(next int) (*CouponsByLocation, error) {
