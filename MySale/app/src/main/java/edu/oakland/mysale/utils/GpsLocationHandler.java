@@ -10,6 +10,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
 
 /**
  * Created by Erik on 8/14/15.
@@ -19,6 +20,7 @@ public class GpsLocationHandler implements
 
     private GoogleApiClient googleApiClient;
     private LocationRequest locationRequest;
+    private LatLng latLng = null;
 
     public GpsLocationHandler(Context context) {
         Log.i("Location(Erik)", "GPS Location created");
@@ -42,6 +44,7 @@ public class GpsLocationHandler implements
         locationRequest.setInterval(10000);
         locationRequest.setFastestInterval(5000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setMaxWaitTime(1000);
     }
 
     @Override
@@ -76,8 +79,12 @@ public class GpsLocationHandler implements
                     googleApiClient, locationRequest, this);
     }
 
-    private void stopLocationUpdates() {
+    public void stopLocationUpdates() {
             LocationServices.FusedLocationApi.removeLocationUpdates(
                     googleApiClient, this);
+    }
+
+    public LatLng getLatLong() {
+        return latLng;
     }
 }
