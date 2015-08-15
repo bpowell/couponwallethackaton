@@ -19,7 +19,6 @@ public class GpsLocationHandler implements
 
     private GoogleApiClient googleApiClient;
     private LocationRequest locationRequest;
-    private boolean requestingLocationUpdates;
 
     public GpsLocationHandler(Context context) {
         Log.i("Location(Erik)", "GPS Location created");
@@ -48,48 +47,37 @@ public class GpsLocationHandler implements
     @Override
     public void onConnected(Bundle bundle) {
         Log.i("Location(Erik)", "GPS Connected");
-        if(locationRequest != null) {
-            startLocationUpdates();
+        if (locationRequest != null) {
+            getLocation();
         }
     }
 
     @Override
     public void onConnectionSuspended(int i) {
         Log.i("Location(Erik)", "Connection Suspended");
+        stopLocationUpdates();
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
         Log.i("Location(Erik)", "Connection Failed");
+        stopLocationUpdates();
     }
 
     @Override
     public void onLocationChanged(Location location) {
         Log.i("Location(Erik)", location.getLatitude() + "," + location.getLongitude());
-    }
-
-    private void startLocationUpdates() {
-        Log.i("Location(Erik)", "state Location Updates");
-        if(!requestingLocationUpdates) {
-            LocationServices.FusedLocationApi.requestLocationUpdates(
-                    googleApiClient, locationRequest, this);
-            requestingLocationUpdates = !requestingLocationUpdates;
-        }
-    }
-
-    private void stopLocationUpdates() {
-        if (googleApiClient.isConnected() && requestingLocationUpdates) {
-            LocationServices.FusedLocationApi.removeLocationUpdates(
-                    googleApiClient, this);
-            requestingLocationUpdates = !requestingLocationUpdates;
-        }
-    }
-
-    public void stopLocatitonUpdates() {
         stopLocationUpdates();
     }
 
-    public void resumeLocationUpdates() {
-        startLocationUpdates();
+    private void getLocation() {
+        Log.i("Location(Erik)", "Get Location");
+            LocationServices.FusedLocationApi.requestLocationUpdates(
+                    googleApiClient, locationRequest, this);
+    }
+
+    private void stopLocationUpdates() {
+            LocationServices.FusedLocationApi.removeLocationUpdates(
+                    googleApiClient, this);
     }
 }
