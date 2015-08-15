@@ -57,7 +57,12 @@ public class CouponListAdapter extends ArrayAdapter<Gosale.CouponsByLocation> {
             try {
                 Gosale.BusinessInfo businessInfo = Gosale.BusinessInfoInit(Integer.parseInt(coupon.getId_business_id()));
                 Log.d("hallelujeahjeu", businessInfo.getLogo());
-                ImageProcessing.setImageFromUrl(couponLayout.cardImage, businessInfo.getLogo().replace(" ", "%21"));
+                String url = businessInfo.getLogo().replace(" ", "%20");
+                if(url.matches("^(http://)(?=.*http://).+$")) {
+                    String[] split = url.split("http://");
+                    url = "http://" + split[2];
+                }
+                ImageProcessing.setImageFromUrl(couponLayout.cardImage, url);
             } catch (Exception e) {
                 e.printStackTrace();
             }
