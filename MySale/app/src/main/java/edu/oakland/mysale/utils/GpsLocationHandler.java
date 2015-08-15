@@ -2,7 +2,6 @@ package edu.oakland.mysale.utils;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,7 +17,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import edu.oakland.mysale.activities.MainActivity;
-import edu.oakland.mysale.activities.MainActivity_;
 import go.gosale.Gosale;
 
 /**

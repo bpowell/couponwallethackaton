@@ -4,6 +4,13 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/MySale.iml" filepath="$PROJECT_DIR$/MySale.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/businessinfo/businessinfo.iml" filepath="$PROJECT_DIR$/businessinfo/businessinfo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/businessinfo/businessinfo.iml" filepath="$PROJECT_DIR$/businessinfo/businessinfo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/couponsbylocation/couponsbylocation.iml" filepath="$PROJECT_DIR$/couponsbylocation/couponsbylocation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/couponsbylocation/couponsbylocation.iml" filepath="$PROJECT_DIR$/couponsbylocation/couponsbylocation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cwconfig/cwconfig.iml" filepath="$PROJECT_DIR$/cwconfig/cwconfig.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cwconfig/cwconfig.iml" filepath="$PROJECT_DIR$/cwconfig/cwconfig.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gosale/gosale.iml" filepath="$PROJECT_DIR$/gosale/gosale.iml" />
     </modules>
   </component>
 </project>
