@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -7,7 +7,26 @@
     tools:context="edu.oakland.mysale.activities.CouponDetailActivity"
     android:orientation="vertical">
 
-    <include layout="@layout/header_card" />
-    <include layout="@layout/info_card" />
+    <include layout="@layout/header_card"
+        android:id="@+id/include" />
 
-</LinearLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        android:id="@+id/large_image"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="32dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="1104dp" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        android:id="@+id/small_image"
+        android:layout_marginLeft="32dp"
+        android:layout_alignParentStart="true" />
+
+
+</RelativeLayout>
