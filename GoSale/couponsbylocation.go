@@ -55,6 +55,10 @@ type CouponsByLocation struct {
 	Id_subcategory_id   string
 }
 
+func EmptyCouponsByLocation() *CouponsByLocation {
+	return &CouponsByLocation{}
+}
+
 type ThisCouponsByLocation struct {
 	couponsByLocation []CouponsByLocation
 }
