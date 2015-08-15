@@ -29,6 +29,7 @@ public class GpsLocationHandler implements
     private GoogleApiClient googleApiClient;
     private LocationRequest locationRequest;
     private static List<Gosale.CouponsByLocation> branbarn = null;
+    public boolean locationFound = false;
 
     public GpsLocationHandler(Activity referenceActivity) {
         this.referenceActivity = referenceActivity;
@@ -79,6 +80,7 @@ public class GpsLocationHandler implements
 
     @Override
     public void onLocationChanged(Location location) {
+        locationFound = true;
         Log.i("Location(Erik)", location.getLatitude() + "," + location.getLongitude());
         try {
             HashMap<String, Integer> alreadyThere = new HashMap<>();
@@ -101,7 +103,7 @@ public class GpsLocationHandler implements
         }
         stopLocationUpdates();
 
-        ((MainActivity) referenceActivity).getStuff();
+        //((MainActivity) referenceActivity).getStuff();
     }
 
     private void getLocation() {

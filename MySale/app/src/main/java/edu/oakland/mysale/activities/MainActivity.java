@@ -2,8 +2,13 @@ package edu.oakland.mysale.activities;
 
 import android.animation.LayoutTransition;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -22,6 +27,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.AfterViews;
@@ -54,8 +60,6 @@ public class MainActivity extends ActionBarActivity {
 
     @AfterViews
     public void init() {
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("BranBarn@GoToJAIL.com");
 
         final String[] from = new String[] {"businesses"};
         final int[] to = new int[] {android.R.id.text1};
@@ -65,6 +69,14 @@ public class MainActivity extends ActionBarActivity {
                 from,
                 to,
                 CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+
+        final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
+
+        if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+            buildAlertMessageNoGps();
+        }else{
+            updateTableList();
+        }
     }
 
     @ViewById(R.id.list)
@@ -78,7 +90,59 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstaceState);
         locationHandler = new GpsLocationHandler(this);
         getAllBusinesses();
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("BranBarn@GoToJAIL.com");
         //getAllCategories();
+
+    }
+
+    private void updateTableList() {
+        // TODO Auto-generated method stub
+        //final ProgressDialog pd1=ProgressDialog.show(this, "Calling Webservice", "Waiting...", true, false);
+
+        final ProgressBar pbHeaderProgress = (ProgressBar) findViewById(R.id.Loading);
+
+        new AsyncTask<Void, Void, Void>() {
+
+            protected void onPreExecute() {
+                // TODO Auto-generated method stub
+                super.onPreExecute();
+                pbHeaderProgress.setVisibility(View.VISIBLE);
+            }
+
+
+
+            protected Void doInBackground(Void... params) {
+                while(!locationHandler.locationFound) {
+
+                }
+                getStuff();
+                return null;
+            }
+
+            protected void onPostExecute(Void result) {
+                pbHeaderProgress.setVisibility(View.GONE);
+            }
+        }.execute();
+
+    }
+
+    private void buildAlertMessageNoGps() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        dialog.cancel();
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
     }
 
     public void getStuff() {
