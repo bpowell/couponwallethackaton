@@ -1,10 +1,13 @@
 package edu.oakland.mysale.adapters;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,6 +32,8 @@ import java.net.URLEncoder;
 import java.util.List;
 
 import edu.oakland.mysale.R;
+import edu.oakland.mysale.activities.CouponDetailActivity_;
+import edu.oakland.mysale.activities.MainActivity;
 import edu.oakland.mysale.layouts.CouponDetailLayout;
 import edu.oakland.mysale.layouts.CouponHeaderLayout;
 import edu.oakland.mysale.utils.ImageProcessing;
@@ -55,6 +60,7 @@ public class CouponListAdapter extends ArrayAdapter<Gosale.CouponsByLocation> {
     public View getView(int position, View convertView, ViewGroup parent) {
         View cell = convertView;
         CouponHeaderLayout couponLayout;
+        String url = "";
 
         if (cell == null) {
             couponLayout = new CouponHeaderLayout();
@@ -69,7 +75,7 @@ public class CouponListAdapter extends ArrayAdapter<Gosale.CouponsByLocation> {
             Gosale.CouponsByLocation coupon = coupons.get(position);
             try {
                 Gosale.BusinessInfo businessInfo = Gosale.BusinessInfoInit(Integer.parseInt(coupon.getId_business_id()));
-                String url = businessInfo.getLogo().replace(" ", "%20");
+                url = businessInfo.getLogo().replace(" ", "%20");
                 if(url.matches("^(http://)(?=.*http://).+$")) {
                     String[] split = url.split("http://");
                     url = "http://" + split[2];
@@ -92,7 +98,30 @@ public class CouponListAdapter extends ArrayAdapter<Gosale.CouponsByLocation> {
             }
             couponLayout.cardTitle.setText(coupon.getBusinessName());
 
-            View detailCell = inflater.inflate(R.layout.info_card, parent, false);
+            final View detailCell = inflater.inflate(R.layout.info_card, parent, false);
+            final View tranCell = cell;
+            final String tempUrl = url;
+            final String tempName = coupon.getBusinessName();
+
+            detailCell.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String imagerUrl = tempUrl;
+                    String companyName = tempName;
+                    Intent i = CouponDetailActivity_
+                            .intent(context)
+                            .imageUrl(imagerUrl)
+                            .companyName(companyName)
+                            .get();
+
+                    View sharedView = tranCell;
+                    String transitionName = context.getString(R.string.header_tran);
+
+                    ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation((Activity)context, sharedView, transitionName);
+                    context.startActivity(i, transitionActivityOptions.toBundle());
+                }
+            });
+
             CouponDetailLayout couponDetailLayout = new CouponDetailLayout();
             couponDetailLayout.couponDescription = (TextView) detailCell.findViewById(R.id.card_description);
             couponDetailLayout.couponDetails = (TextView) detailCell.findViewById(R.id.card_detail);
