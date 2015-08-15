@@ -27,11 +27,11 @@ public class ImageProcessing {
         try {
             Picasso.with(imageView.getContext())
                     .load(path)
-                    .error(R.mipmap.ic_launcher)
+                    .error(R.drawable.ic_broken_image)
                     .into(target);
             Picasso.with(imageView.getContext())
                     .load(path)
-                    .error(R.mipmap.ic_launcher)
+                    .error(R.drawable.ic_broken_image)
                     .into(imageView);
         } catch (Exception e) {
             Log.e("image", e.getMessage(), e);
