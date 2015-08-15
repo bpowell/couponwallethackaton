@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+
+	"github.com/nbjahan/gofuzz"
 )
 
 type AllBusinesses struct {
@@ -38,7 +40,8 @@ type AllBusinesses struct {
 }
 
 type ThisAllBusinesses struct {
-	allBusinesses []AllBusinesses
+	allBusinesses      []AllBusinesses
+	filteredBusinesses []AllBusinesses
 }
 
 func AllBusinessesInit() (*ThisAllBusinesses, error) {
@@ -87,4 +90,34 @@ func (this *ThisAllBusinesses) Get(next int) (*AllBusinesses, error) {
 
 func (this *ThisAllBusinesses) Size() int {
 	return len(this.allBusinesses)
+}
+
+func (this *ThisAllBusinesses) Search(pattern string) {
+	m := gofuzz.New()
+	this.filteredBusinesses = nil
+
+	for _, business := range this.allBusinesses {
+		pos, score := m.Search(business.Name, pattern, 0)
+		if pos == 0 {
+			if score == 0 {
+				this.filteredBusinesses = append(this.filteredBusinesses, business)
+			}
+		}
+	}
+}
+
+func (this *ThisAllBusinesses) GetFiltered(next int) (*AllBusinesses, error) {
+	if next < 0 || next < len(this.filteredBusinesses) {
+		return &AllBusinesses{}, errors.New("Can't go below 0")
+	}
+
+	if next > len(this.filteredBusinesses) {
+		return &AllBusinesses{}, errors.New("Can't go above length of array")
+	}
+
+	return &this.filteredBusinesses[next], nil
+}
+
+func (this *ThisAllBusinesses) SizeFiltered() int {
+	return len(this.filteredBusinesses)
 }
