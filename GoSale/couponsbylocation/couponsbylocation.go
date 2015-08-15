@@ -56,13 +56,15 @@ type CouponsByLocation struct {
 	Id_subcategory_id   string
 }
 
-var couponsByLocation []CouponsByLocation
+type This struct {
+	couponsByLocation []CouponsByLocation
+}
 
-func Init(lat, lon, radius float64) {
+func Init(lat, lon, radius float64) (*This, error) {
 	config, err := cwconfig.NewConfig()
 	if err != nil {
 		fmt.Println(err)
-		return
+		return &This{}, err
 	}
 
 	url := fmt.Sprintf("http://%s%s/?method=get_coupons_by_location&lat=%.2f&lon=%.2f&radius=%.2f&OUTPUT=json&API_KEY=%s", config.Service, config.Base_url, lat, lon, radius, config.APIKEY)
@@ -71,34 +73,37 @@ func Init(lat, lon, radius float64) {
 	result, err := http.Get(url)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return &This{}, err
 	}
 
 	body, err := ioutil.ReadAll(result.Body)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return &This{}, err
 	}
 
-	err = json.Unmarshal(body, &couponsByLocation)
+	var this This
+	err = json.Unmarshal(body, &this.couponsByLocation)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return &This{}, err
 	}
+
+	return &this, nil
 }
 
-func Get(next int) (*CouponsByLocation, error) {
+func (this *This) Get(next int) (*CouponsByLocation, error) {
 	if next < 0 {
 		return &CouponsByLocation{}, errors.New("Can't go below 0")
 	}
 
-	if next > len(couponsByLocation) {
+	if next > len(this.couponsByLocation) {
 		return &CouponsByLocation{}, errors.New("Can't go above length of array")
 	}
 
-	return &couponsByLocation[next], nil
+	return &this.couponsByLocation[next], nil
 }
 
-func Size() int {
-	return len(couponsByLocation)
+func (this *This) Size() int {
+	return len(this.couponsByLocation)
 }
