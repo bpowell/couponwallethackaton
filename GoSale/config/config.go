@@ -1,4 +1,4 @@
-package gosale
+package config
 
 import (
 	"encoding/json"

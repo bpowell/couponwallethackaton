@@ -1,4 +1,4 @@
-package gosale
+package couponsbylocation
 
 import (
 	"encoding/json"
@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+
+	"github.com/bpowell/couponwallethackaton/gosale/config"
 )
 
 type CouponsByLocation struct {
@@ -57,7 +59,7 @@ type CouponsByLocation struct {
 var couponsByLocation []CouponsByLocation
 
 func GetCouponsByLocation(lat, lon, radius float64) {
-	config, err := NewConfig()
+	config, err := config.NewConfig()
 	if err != nil {
 		fmt.Println(err)
 		return
