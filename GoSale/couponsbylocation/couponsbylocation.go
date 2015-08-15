@@ -7,7 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/bpowell/couponwallethackaton/gosale/config"
+	"github.com/bpowell/couponwallethackaton/gosale/cwconfig"
 )
 
 type CouponsByLocation struct {
@@ -59,7 +59,7 @@ type CouponsByLocation struct {
 var couponsByLocation []CouponsByLocation
 
 func Init(lat, lon, radius float64) {
-	config, err := config.NewConfig()
+	config, err := cwconfig.NewConfig()
 	if err != nil {
 		fmt.Println(err)
 		return
