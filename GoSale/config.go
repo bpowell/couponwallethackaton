@@ -1,4 +1,4 @@
-package cwconfig
+package gosale
 
 import (
 	"encoding/json"

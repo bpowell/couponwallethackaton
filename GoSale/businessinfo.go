@@ -1,12 +1,10 @@
-package businessinfo
+package gosale
 
 import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
-
-	"github.com/bpowell/couponwallethackaton/gosale/cwconfig"
 )
 
 type BusinessInfo struct {
@@ -38,8 +36,8 @@ type BusinessInfo struct {
 	Id_business_id         string
 }
 
-func Init(id int) (*BusinessInfo, error) {
-	config, err := cwconfig.NewConfig()
+func BusinessInfoInit(id int) (*BusinessInfo, error) {
+	config, err := NewConfig()
 	if err != nil {
 		fmt.Println(err)
 		return &BusinessInfo{}, err

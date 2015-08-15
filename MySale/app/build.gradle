@@ -24,9 +24,7 @@ dependencies {
     compile "org.androidannotations:androidannotations-api:$AAVersion"
     compile 'com.android.support:cardview-v7:22.2.1'
     compile 'com.google.android.gms:play-services:7.+'
-    compile project(':couponsbylocation')
-    //compile project(':cwconfig')
-    compile project(':businessinfo')
+    compile project(':gosale')
 }
 
 apt {

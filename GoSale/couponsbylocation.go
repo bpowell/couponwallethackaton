@@ -1,4 +1,4 @@
-package couponsbylocation
+package gosale
 
 import (
 	"encoding/json"
@@ -7,8 +7,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"time"
-
-	"github.com/bpowell/couponwallethackaton/gosale/cwconfig"
 )
 
 type CouponsByLocation struct {
@@ -57,15 +55,15 @@ type CouponsByLocation struct {
 	Id_subcategory_id   string
 }
 
-type This struct {
+type ThisCouponsByLocation struct {
 	couponsByLocation []CouponsByLocation
 }
 
-func Init(lat, lon, radius float64) (*This, error) {
-	config, err := cwconfig.NewConfig()
+func CouponsByLocationInit(lat, lon, radius float64) (*ThisCouponsByLocation, error) {
+	config, err := NewConfig()
 	if err != nil {
 		fmt.Println(err)
-		return &This{}, err
+		return &ThisCouponsByLocation{}, err
 	}
 
 	url := fmt.Sprintf("http://%s%s/?method=get_coupons_by_location&lat=%.2f&lon=%.2f&radius=%.2f&OUTPUT=json&API_KEY=%s", config.Service, config.Base_url, lat, lon, radius, config.APIKEY)
@@ -74,29 +72,29 @@ func Init(lat, lon, radius float64) (*This, error) {
 	result, err := http.Get(url)
 	if err != nil {
 		fmt.Println(err)
-		return &This{}, err
+		return &ThisCouponsByLocation{}, err
 	}
 
 	body, err := ioutil.ReadAll(result.Body)
 	if err != nil {
 		fmt.Println(err)
-		return &This{}, err
+		return &ThisCouponsByLocation{}, err
 	}
 
-	var this This
+	var this ThisCouponsByLocation
 	err = json.Unmarshal(body, &this.couponsByLocation)
 	if err != nil {
 		fmt.Println(err)
-		return &This{}, err
+		return &ThisCouponsByLocation{}, err
 	}
 
 	ref := "2006-01-02 15:04:05"
-	var this2 This
+	var this2 ThisCouponsByLocation
 	for _, b := range this.couponsByLocation {
 		date, err := time.Parse(ref, b.Expires)
 		if err != nil {
 			fmt.Println(err)
-			return &This{}, err
+			return &ThisCouponsByLocation{}, err
 		}
 
 		if date.After(time.Now()) {
@@ -107,7 +105,7 @@ func Init(lat, lon, radius float64) (*This, error) {
 	return &this2, nil
 }
 
-func (this *This) Get(next int) (*CouponsByLocation, error) {
+func (this *ThisCouponsByLocation) Get(next int) (*CouponsByLocation, error) {
 	if next < 0 {
 		return &CouponsByLocation{}, errors.New("Can't go below 0")
 	}
@@ -119,6 +117,6 @@ func (this *This) Get(next int) (*CouponsByLocation, error) {
 	return &this.couponsByLocation[next], nil
 }
 
-func (this *This) Size() int {
+func (this *ThisCouponsByLocation) Size() int {
 	return len(this.couponsByLocation)
 }

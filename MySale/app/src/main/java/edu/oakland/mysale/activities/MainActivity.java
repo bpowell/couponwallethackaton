@@ -15,7 +15,7 @@ public class MainActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         try {
-            go.couponsbylocation.Couponsbylocation.This c = go.couponsbylocation.Couponsbylocation.Init(42.62, -83.02, 1.5);
+            go.gosale.Gosale.ThisCouponsByLocation c = go.gosale.Gosale.CouponsByLocationInit(42.63, -80.02, 1.5);
             Log.d("TESTING", String.valueOf(c.Size()));
         } catch (Exception e) {
             Log.d("ERROR", e.getMessage());
