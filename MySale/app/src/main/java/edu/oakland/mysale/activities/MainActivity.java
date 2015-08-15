@@ -29,6 +29,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import edu.oakland.mysale.R;
@@ -36,6 +37,7 @@ import edu.oakland.mysale.adapters.CouponListAdapter;
 import edu.oakland.mysale.utils.GpsLocationHandler;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import edu.oakland.mysale.R;
 import go.gosale.Gosale;
@@ -81,6 +83,9 @@ public class MainActivity extends ActionBarActivity {
 
     public void getStuff() {
         List<Gosale.CouponsByLocation> coupons = GpsLocationHandler.getCoupons();
+        if(Objects.equals(coupons, null)) {
+            return;
+        }
 
         CouponListAdapter adapter = new CouponListAdapter(
                 MainActivity.this,
@@ -93,6 +98,20 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void getStuffAndThings(List<Gosale.CouponsByLocation> coupons) {
+        if(!Objects.equals(coupons, null)) {
+            for (int i = 0; i < coupons.size(); i++) {
+                Gosale.CouponsByLocation c = coupons.get(i);
+                if (Objects.equals(c.getDescription(), null)) {
+                    Gosale.CouponsByLocation n = Gosale.EmptyCouponsByLocation();
+                    n.setImage("/fake/path");
+                    n.setId_business_id("0");
+                    n.setBusinessName("Opps! Something went wrong.");
+                    n.setDescription("We are sorry, there are no coupons at this time!");
+                    coupons.set(i, n);
+                }
+            }
+        }
+
         CouponListAdapter adapter = new CouponListAdapter(
                 MainActivity.this,
                 list,

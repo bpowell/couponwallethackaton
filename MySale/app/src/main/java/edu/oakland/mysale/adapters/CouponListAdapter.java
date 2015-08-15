@@ -30,6 +30,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.Objects;
 
 import edu.oakland.mysale.R;
 import edu.oakland.mysale.activities.CouponDetailActivity_;
@@ -75,10 +76,14 @@ public class CouponListAdapter extends ArrayAdapter<Gosale.CouponsByLocation> {
             Gosale.CouponsByLocation coupon = coupons.get(position);
             try {
                 Gosale.BusinessInfo businessInfo = Gosale.BusinessInfoInit(Integer.parseInt(coupon.getId_business_id()));
-                url = businessInfo.getLogo().replace(" ", "%20");
-                if(url.matches("^(http://)(?=.*http://).+$")) {
-                    String[] split = url.split("http://");
-                    url = "http://" + split[2];
+                if(Objects.equals(businessInfo.getLogo(), null)) {
+                    url = "/fake/path";
+                } else {
+                    url = businessInfo.getLogo().replace(" ", "%20");
+                    if (url.matches("^(http://)(?=.*http://).+$")) {
+                        String[] split = url.split("http://");
+                        url = "http://" + split[2];
+                    }
                 }
 
                 final Bitmap[] b = new Bitmap[1];
