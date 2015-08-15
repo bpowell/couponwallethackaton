@@ -61,6 +61,9 @@ public class MainActivity extends ActionBarActivity {
     @AfterViews
     public void init() {
 
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("BranBarn@GoToJAIL.com");
+
         final String[] from = new String[] {"businesses"};
         final int[] to = new int[] {android.R.id.text1};
         searchAdapter = new SimpleCursorAdapter(this,
@@ -90,8 +93,6 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstaceState);
         locationHandler = new GpsLocationHandler(this);
         getAllBusinesses();
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("BranBarn@GoToJAIL.com");
         //getAllCategories();
 
     }

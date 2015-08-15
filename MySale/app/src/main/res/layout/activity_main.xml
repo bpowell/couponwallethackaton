@@ -5,48 +5,47 @@
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity">
 
-    <include layout="@layout/toolbar"
-        android:id="@+id/include2" />
+    <include layout="@layout/toolbar" />
 
     <RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <RelativeLayout
-        android:id="@+id/page_header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:layout_alignParentStart="true">
-
-        <TextView
-            android:id="@+id/header_title"
+            android:id="@+id/page_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="#333"
-            android:text="@string/header_text" />
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:layout_alignParentStart="true">
 
-        <TextView
-            android:id="@+id/header_subheader"
+            <TextView
+                android:id="@+id/header_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#333"
+                android:text="@string/header_text" />
+
+            <TextView
+                android:id="@+id/header_subheader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/header_title"
+                android:textSize="16sp"
+                android:textStyle="italic"
+                android:text="Here's some coupon love" />
+
+        </RelativeLayout>
+
+        <ListView
+            android:id="@+id/list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/header_title"
-            android:textSize="16sp"
-            android:textStyle="italic"
-            android:text="Here's some coupon love" />
-
-    </RelativeLayout>
-
-    <ListView
-        android:id="@+id/list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/page_header" />
+            android:layout_height="match_parent"
+            android:layout_below="@id/page_header" />
 
         <ProgressBar
             style="?android:attr/progressBarStyleLarge"
@@ -55,6 +54,7 @@
             android:id="@+id/Loading"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true" />
+
     </RelativeLayout>
 
 </LinearLayout>
