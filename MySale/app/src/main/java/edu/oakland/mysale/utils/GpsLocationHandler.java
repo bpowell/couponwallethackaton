@@ -13,6 +13,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import go.gosale.Gosale;
@@ -25,7 +26,7 @@ public class GpsLocationHandler implements
 
     private GoogleApiClient googleApiClient;
     private LocationRequest locationRequest;
-    private List<Gosale.CouponsByLocation> branbarn = null;
+    private List<List<Gosale.CouponsByLocation>> branbarn = null;
 
     public GpsLocationHandler(Context context) {
         Log.i("Location(Erik)", "GPS Location created");
@@ -76,11 +77,22 @@ public class GpsLocationHandler implements
     public void onLocationChanged(Location location) {
         Log.i("Location(Erik)", location.getLatitude() + "," + location.getLongitude());
         try {
+            HashMap<String, Integer> alreadyThere = new HashMap<>();
             go.gosale.Gosale.ThisCouponsByLocation c = go.gosale.Gosale.CouponsByLocationInit(42.63, -80.02, 1.5);
             Log.d("TESTING", String.valueOf(c.Size()));
             branbarn = new ArrayList<>();
             for(int i=0; i<c.Size(); i++) {
-                branbarn.add(c.Get(i));
+                go.gosale.Gosale.CouponsByLocation a = c.Get(i);
+                if(alreadyThere.containsKey(a.getId_business_id())) {
+                    int position = alreadyThere.get(a.getId_business_id());
+                    branbarn.get(position).add(a);
+                } else {
+                    int size = branbarn.size() + 1;
+                    alreadyThere.put(a.getId_business_id(), size);
+                    List<go.gosale.Gosale.CouponsByLocation> newlist = new ArrayList<>();
+                    newlist.add(a);
+                    branbarn.add(newlist);
+                }
             }
         } catch (Exception e) {
             Log.d("ERROR", e.getMessage());
@@ -99,7 +111,7 @@ public class GpsLocationHandler implements
                     googleApiClient, this);
     }
 
-    public List<Gosale.CouponsByLocation> getCoupons() {
+    public List<List<Gosale.CouponsByLocation>> getCoupons() {
         return branbarn;
     }
 }
