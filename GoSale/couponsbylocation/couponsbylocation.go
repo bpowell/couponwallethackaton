@@ -58,7 +58,7 @@ type CouponsByLocation struct {
 
 var couponsByLocation []CouponsByLocation
 
-func GetCouponsByLocation(lat, lon, radius float64) {
+func Init(lat, lon, radius float64) {
 	config, err := config.NewConfig()
 	if err != nil {
 		fmt.Println(err)
