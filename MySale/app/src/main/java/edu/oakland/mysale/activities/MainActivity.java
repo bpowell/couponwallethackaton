@@ -210,6 +210,20 @@ public class MainActivity extends ActionBarActivity {
         return results;
     }
 
+    public List<Gosale.CouponsByLocation> getCouponsFromSearchPattern(String pattern) {
+        try {
+            List<Gosale.CouponsByLocation> list = new ArrayList<>();
+            Gosale.ThisCouponsList c = Gosale.CouponsListInit(pattern);
+            for (int i = 0; i < c.Size(); i++) {
+                list.add(c.Get(i));
+            }
+
+            return list;
+        } catch(Exception e) {
+
+        }
+    }
+
     @Override
     public void onResume() {
         super.onResume();

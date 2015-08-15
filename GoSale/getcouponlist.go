@@ -9,54 +9,8 @@ import (
 	"time"
 )
 
-type CouponsList struct {
-	BusinessName        string
-	Category_name       string
-	Subcategory_name    string
-	Id                  string
-	Revision            string
-	Product             string
-	Category            string
-	Subcategory         string
-	Qr_channel          string
-	Fb_channel          string
-	Twitter_channel     string
-	Pinterest_channel   string
-	Website_channel     string
-	Facebook_budget     string
-	Partner_id          string
-	Partner             string
-	Type                string
-	Discount            string
-	Pos_text            string
-	Punches_needed      string
-	Punches_reward      string
-	Remaining           string
-	Expires             string
-	Sku                 string
-	Volume              string
-	Popularity          string
-	Redeem_style        string
-	Accepted_businesses string
-	Accepted_locations  string
-	Image               string
-	Url                 string
-	Pocketcents_channel string
-	Date_added          string
-	Upc                 string
-	ProductName         string
-	Description         string
-	Details             string
-	Id_coupon_id        string
-	Id_location_id      string
-	Id_business_id      string
-	Id_product_id       string
-	Id_category_id      string
-	Id_subcategory_id   string
-}
-
 type ThisCouponsList struct {
-	allCouponsList []CouponsList
+	allCouponsList []CouponsByLocation
 }
 
 func CouponsListInit(pattern string) (*ThisCouponsList, error) {
@@ -91,7 +45,7 @@ func CouponsListInit(pattern string) (*ThisCouponsList, error) {
 			return &ThisCouponsList{}, err
 		}
 
-		var couponList CouponsList
+		var couponList CouponsByLocation
 		err = json.Unmarshal(body, &couponList)
 		if err != nil {
 			fmt.Println(err)
@@ -116,13 +70,13 @@ func CouponsListInit(pattern string) (*ThisCouponsList, error) {
 	return &this, nil
 }
 
-func (this *ThisCouponsList) Get(next int) (*CouponsList, error) {
+func (this *ThisCouponsList) Get(next int) (*CouponsByLocation, error) {
 	if next < 0 {
-		return &CouponsList{}, errors.New("too small")
+		return &CouponsByLocation{}, errors.New("too small")
 	}
 
 	if next > len(this.allCouponsList) {
-		return &CouponsList{}, errors.New("too big")
+		return &CouponsByLocation{}, errors.New("too big")
 	}
 
 	return &this.allCouponsList[next], nil
