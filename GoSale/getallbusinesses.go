@@ -107,7 +107,7 @@ func (this *ThisAllBusinesses) Search(pattern string) {
 }
 
 func (this *ThisAllBusinesses) GetFiltered(next int) (*AllBusinesses, error) {
-	if next < 0 || next < len(this.filteredBusinesses) {
+	if next < 0 {
 		return &AllBusinesses{}, errors.New("Can't go below 0")
 	}
 
