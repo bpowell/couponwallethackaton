@@ -96,3 +96,7 @@ func Get(next int) (*CouponsByLocation, error) {
 
 	return &couponsByLocation[next], nil
 }
+
+func Size() int {
+	return len(couponsByLocation)
+}
