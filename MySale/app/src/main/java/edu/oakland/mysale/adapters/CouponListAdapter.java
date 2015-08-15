@@ -1,6 +1,11 @@
 package edu.oakland.mysale.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +17,15 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+
+import org.androidannotations.annotations.Bean;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.List;
 
@@ -56,13 +70,24 @@ public class CouponListAdapter extends ArrayAdapter<Gosale.CouponsByLocation> {
             Gosale.CouponsByLocation coupon = coupons.get(position);
             try {
                 Gosale.BusinessInfo businessInfo = Gosale.BusinessInfoInit(Integer.parseInt(coupon.getId_business_id()));
-                Log.d("hallelujeahjeu", businessInfo.getLogo());
                 String url = businessInfo.getLogo().replace(" ", "%20");
                 if(url.matches("^(http://)(?=.*http://).+$")) {
                     String[] split = url.split("http://");
                     url = "http://" + split[2];
                 }
-                ImageProcessing.setImageFromUrl(couponLayout.cardImage, url);
+
+                final Bitmap[] b = new Bitmap[1];
+                Target target = new Target() {
+                    @Override
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        b[0] = bitmap;
+                    }
+                    @Override
+                    public void onBitmapFailed(Drawable errorDrawable) { }
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) { }
+                };
+                ImageProcessing.setImageFromUrl(couponLayout.cardImage, url, target);
             } catch (Exception e) {
                 e.printStackTrace();
             }

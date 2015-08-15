@@ -1,22 +1,34 @@
 package edu.oakland.mysale.utils;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
-import org.androidannotations.annotations.App;
+import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.EBean;
 
-import java.util.logging.Logger;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import edu.oakland.mysale.R;
 
 /**
  * Created by Erik on 8/15/15.
  */
+@EBean
 public class ImageProcessing {
-    public static void setImageFromUrl(ImageView imageView, String path) {
+    public static void setImageFromUrl(ImageView imageView, String path, Target target) {
         try {
+            Picasso.with(imageView.getContext())
+                    .load(path)
+                    .error(R.mipmap.ic_launcher)
+                    .into(target);
             Picasso.with(imageView.getContext())
                     .load(path)
                     .error(R.mipmap.ic_launcher)
@@ -24,17 +36,5 @@ public class ImageProcessing {
         } catch (Exception e) {
             Log.e("image", e.getMessage(), e);
         }
-
-    }
-
-    public static void setImageFromDrawable(ImageView imageView, int resNo) {
-        try {
-            Picasso.with(imageView.getContext())
-                    .load(resNo)
-                    .error(R.mipmap.ic_launcher)
-                    .into(imageView);
-        } catch (Exception e) {
-        }
-
     }
 }
