@@ -53,14 +53,14 @@ type CouponsByLocation struct {
 	Id_subcategory_id   string
 }
 
-type CouponsByLocations []CouponsByLocation
+var couponsByLocation []CouponsByLocation
+var CouponsByLocationSize int
 
-func GetCouponsByLocation(lat, lon, radius float64) *CouponsByLocations {
-	var data CouponsByLocations
+func GetCouponsByLocation(lat, lon, radius float64) {
 	config, err := NewConfig()
 	if err != nil {
 		fmt.Println(err)
-		return &data
+		return
 	}
 
 	url := fmt.Sprintf("http://%s%s/?method=get_coupons_by_location&lat=%.2f&lon=%.2f&radius=%.2f&OUTPUT=json&API_KEY=%s", config.Service, config.Base_url, lat, lon, radius, config.APIKEY)
@@ -69,20 +69,24 @@ func GetCouponsByLocation(lat, lon, radius float64) *CouponsByLocations {
 	result, err := http.Get(url)
 	if err != nil {
 		fmt.Println(err)
-		return &data
+		return
 	}
 
 	body, err := ioutil.ReadAll(result.Body)
 	if err != nil {
 		fmt.Println(err)
-		return &data
+		return
 	}
 
-	err = json.Unmarshal(body, &data)
+	err = json.Unmarshal(body, &couponsByLocation)
 	if err != nil {
 		fmt.Println(err)
-		return &data
+		return
 	}
 
-	return &data
+	CouponsByLocationSize = len(couponsByLocation)
+}
+
+func Get(next int) CouponsByLocation {
+	return couponsByLocation[next]
 }
