@@ -26,6 +26,7 @@ dependencies {
     compile 'com.google.android.gms:play-services:7.+'
     compile project(':couponsbylocation')
     //compile project(':cwconfig')
+    compile project(':businessinfo')
 }
 
 apt {

@@ -1,1 +1,1 @@
-include ':app', ':cwconfig', ':couponsbylocation'
+include ':app', ':cwconfig', ':couponsbylocation', ':businessinfo'
