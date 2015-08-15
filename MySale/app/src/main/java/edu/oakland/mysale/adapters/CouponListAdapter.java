@@ -103,6 +103,24 @@ public class CouponListAdapter extends ArrayAdapter<Gosale.CouponsByLocation> {
             final String tempUrl = url;
             final String tempName = coupon.getBusinessName();
 
+            cell.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String imagerUrl = tempUrl;
+                    String companyName = tempName;
+                    Intent i = CouponDetailActivity_
+                            .intent(context)
+                            .imageUrl(imagerUrl)
+                            .companyName(companyName)
+                            .get();
+
+                    View sharedView = tranCell;
+                    String transitionName = context.getString(R.string.header_tran);
+
+                    ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation((Activity)context, sharedView, transitionName);
+                    context.startActivity(i, transitionActivityOptions.toBundle());
+                }
+            });
             detailCell.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
