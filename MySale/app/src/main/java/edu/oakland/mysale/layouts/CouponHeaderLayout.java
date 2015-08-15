@@ -1,6 +1,7 @@
 package edu.oakland.mysale.layouts;
 
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -12,5 +13,5 @@ public class CouponHeaderLayout {
     public ImageView cardImage;
     public TextView cardTitle;
 
-    public ListView locationCoupons;
+    public LinearLayout locationCoupons;
 }

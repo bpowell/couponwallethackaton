@@ -78,7 +78,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void getStuff() {
-        List<List<Gosale.CouponsByLocation>> coupons = GpsLocationHandler.getCoupons();
+        List<Gosale.CouponsByLocation> coupons = GpsLocationHandler.getCoupons();
 
         CouponListAdapter adapter = new CouponListAdapter(
                 MainActivity.this,
@@ -90,12 +90,11 @@ public class MainActivity extends ActionBarActivity {
         list.setAdapter(adapter);
     }
 
-    public void getStuffAndThings(List<List<Gosale.CouponsByLocation>> coupons) {
+    public void getStuffAndThings(List<Gosale.CouponsByLocation> coupons) {
         CouponListAdapter adapter = new CouponListAdapter(
                 MainActivity.this,
                 list,
                 R.layout.header_card,
-                R.layout.info_card,
                 coupons
         );
 
@@ -234,8 +233,8 @@ public class MainActivity extends ActionBarActivity {
         return results;
     }
 
-    public List<List<Gosale.CouponsByLocation>> getCouponsFromSearchPattern(String pattern) {
-        List<List<Gosale.CouponsByLocation>> list = new ArrayList<>();
+    public List<Gosale.CouponsByLocation> getCouponsFromSearchPattern(String pattern) {
+        List<Gosale.CouponsByLocation> list = new ArrayList<>();
 
         try {
             HashMap<String, Integer> alreadyThere = new HashMap<>();
@@ -243,14 +242,11 @@ public class MainActivity extends ActionBarActivity {
             for (int i = 0; i < c.Size(); i++) {
                 go.gosale.Gosale.CouponsByLocation a = c.Get(i);
                 if(alreadyThere.containsKey(a.getId_business_id())) {
-                    int position = alreadyThere.get(a.getId_business_id());
-                    list.get(position).add(a);
+                    list.add(a);
                 } else {
                     int size = list.size() + 1;
                     alreadyThere.put(a.getId_business_id(), size);
-                    List<go.gosale.Gosale.CouponsByLocation> newlist = new ArrayList<>();
-                    newlist.add(a);
-                    list.add(newlist);
+                    list.add(a);
                 }
             }
 

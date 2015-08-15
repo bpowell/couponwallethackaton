@@ -2,42 +2,46 @@ package edu.oakland.mysale.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.net.URLEncoder;
 import java.util.List;
 
 import edu.oakland.mysale.R;
+import edu.oakland.mysale.layouts.CouponDetailLayout;
 import edu.oakland.mysale.layouts.CouponHeaderLayout;
+import edu.oakland.mysale.utils.ImageProcessing;
 import go.gosale.Gosale;
 
-public class CouponListAdapter extends ArrayAdapter<List<Gosale.CouponsByLocation>> {
+public class CouponListAdapter extends ArrayAdapter<Gosale.CouponsByLocation> {
 
     private final Context context;
     private final ListView list;
-    private final List<List<Gosale.CouponsByLocation>> locations;
+    private final List<Gosale.CouponsByLocation> coupons;
     private final LayoutInflater inflater;
     private final int resourceId;
 
-    public CouponListAdapter(Context context, ListView list, int resourceId, List<List<Gosale.CouponsByLocation>> locations) {
-        super(context, resourceId, locations);
+    public CouponListAdapter(Context context, ListView list, int resourceId, List<Gosale.CouponsByLocation> coupons) {
+        super(context, resourceId, coupons);
         this.context = context;
         this.list = list;
         this.resourceId = resourceId;
-        this.locations = locations;
+        this.coupons = coupons;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View cell = convertView;
-        CouponHeaderLayout couponLayout = null;
-        CouponDetailsListAdapter detailsListAdapter = null;
+        CouponHeaderLayout couponLayout;
 
         if (cell == null) {
             couponLayout = new CouponHeaderLayout();
@@ -47,10 +51,28 @@ public class CouponListAdapter extends ArrayAdapter<List<Gosale.CouponsByLocatio
             couponLayout.headerCard = (CardView) cell.findViewById(R.id.header_card);
             couponLayout.cardImage = (ImageView) cell.findViewById(R.id.card_image);
             couponLayout.cardTitle = (TextView) cell.findViewById(R.id.card_title);
-            couponLayout.locationCoupons = (ListView) cell.findViewById(R.id.coupon_list);
+            couponLayout.locationCoupons = (LinearLayout) cell.findViewById(R.id.coupon_list);
 
-            detailsListAdapter = new CouponDetailsListAdapter(context, couponLayout.locationCoupons, R.layout.info_card, couponLayout, locations);
-            couponLayout.locationCoupons.setAdapter(detailsListAdapter);
+            Gosale.CouponsByLocation coupon = coupons.get(position);
+            try {
+                Gosale.BusinessInfo businessInfo = Gosale.BusinessInfoInit(Integer.parseInt(coupon.getId_business_id()));
+                Log.d("hallelujeahjeu", businessInfo.getLogo());
+                Log.d("hallelujeahjeu", URLEncoder.encode(businessInfo.getLogo(), "UTF-8"));
+                ImageProcessing.setImageFromUrl(couponLayout.cardImage, URLEncoder.encode(businessInfo.getLogo(), "UTF-8"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            couponLayout.cardTitle.setText(coupon.getBusinessName());
+
+            View detailCell = inflater.inflate(R.layout.info_card, parent, false);
+            CouponDetailLayout couponDetailLayout = new CouponDetailLayout();
+            couponDetailLayout.couponDescription = (TextView) detailCell.findViewById(R.id.card_description);
+            couponDetailLayout.couponDetails = (TextView) detailCell.findViewById(R.id.card_detail);
+
+            couponDetailLayout.couponDescription.setText(coupon.getDescription());
+            couponDetailLayout.couponDetails.setText(coupon.getDetails());
+
+            couponLayout.locationCoupons.addView(detailCell);
 
             cell.setTag(couponLayout);
 

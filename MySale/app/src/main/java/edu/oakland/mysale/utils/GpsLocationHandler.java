@@ -28,7 +28,7 @@ public class GpsLocationHandler implements
     private Activity referenceActivity;
     private GoogleApiClient googleApiClient;
     private LocationRequest locationRequest;
-    private static List<List<Gosale.CouponsByLocation>> branbarn = null;
+    private static List<Gosale.CouponsByLocation> branbarn = null;
 
     public GpsLocationHandler(Activity referenceActivity) {
         this.referenceActivity = referenceActivity;
@@ -89,13 +89,11 @@ public class GpsLocationHandler implements
                 go.gosale.Gosale.CouponsByLocation a = c.Get(i);
                 if(alreadyThere.containsKey(a.getId_business_id())) {
                     int position = alreadyThere.get(a.getId_business_id());
-                    branbarn.get(position).add(a);
+                    branbarn.add(a);
                 } else {
                     int size = branbarn.size() + 1;
                     alreadyThere.put(a.getId_business_id(), size);
-                    List<go.gosale.Gosale.CouponsByLocation> newlist = new ArrayList<>();
-                    newlist.add(a);
-                    branbarn.add(newlist);
+                    branbarn.add(a);
                 }
             }
         } catch (Exception e) {
@@ -117,7 +115,7 @@ public class GpsLocationHandler implements
                     googleApiClient, this);
     }
 
-    public static List<List<Gosale.CouponsByLocation>> getCoupons() {
+    public static List<Gosale.CouponsByLocation> getCoupons() {
         return branbarn;
     }
 }
