@@ -27,6 +27,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
+import java.util.HashMap;
 import java.util.List;
 
 import edu.oakland.mysale.R;
@@ -210,19 +211,30 @@ public class MainActivity extends ActionBarActivity {
         return results;
     }
 
-    public List<Gosale.CouponsByLocation> getCouponsFromSearchPattern(String pattern) {
+    public List<List<Gosale.CouponsByLocation>> getCouponsFromSearchPattern(String pattern) {
+        List<List<Gosale.CouponsByLocation>> list = new ArrayList<>();
+
         try {
-            List<Gosale.CouponsByLocation> list = new ArrayList<>();
+            HashMap<String, Integer> alreadyThere = new HashMap<>();
             Gosale.ThisCouponsList c = Gosale.CouponsListInit(pattern);
             for (int i = 0; i < c.Size(); i++) {
-                list.add(c.Get(i));
+                go.gosale.Gosale.CouponsByLocation a = c.Get(i);
+                if(alreadyThere.containsKey(a.getId_business_id())) {
+                    int position = alreadyThere.get(a.getId_business_id());
+                    list.get(position).add(a);
+                } else {
+                    int size = list.size() + 1;
+                    alreadyThere.put(a.getId_business_id(), size);
+                    List<go.gosale.Gosale.CouponsByLocation> newlist = new ArrayList<>();
+                    newlist.add(a);
+                    list.add(newlist);
+                }
             }
 
-            return list;
         } catch(Exception e) {
 
         }
-        return null;
+        return list;
     }
 
     @Override
