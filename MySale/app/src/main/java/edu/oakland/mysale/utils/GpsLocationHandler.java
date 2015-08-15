@@ -12,6 +12,11 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import go.gosale.Gosale;
+
 /**
  * Created by Erik on 8/14/15.
  */
@@ -20,7 +25,7 @@ public class GpsLocationHandler implements
 
     private GoogleApiClient googleApiClient;
     private LocationRequest locationRequest;
-    private LatLng latLng = null;
+    private List<Gosale.CouponsByLocation> branbarn = null;
 
     public GpsLocationHandler(Context context) {
         Log.i("Location(Erik)", "GPS Location created");
@@ -70,6 +75,16 @@ public class GpsLocationHandler implements
     @Override
     public void onLocationChanged(Location location) {
         Log.i("Location(Erik)", location.getLatitude() + "," + location.getLongitude());
+        try {
+            go.gosale.Gosale.ThisCouponsByLocation c = go.gosale.Gosale.CouponsByLocationInit(42.63, -80.02, 1.5);
+            Log.d("TESTING", String.valueOf(c.Size()));
+            branbarn = new ArrayList<>();
+            for(int i=0; i<c.Size(); i++) {
+                branbarn.add(c.Get(i));
+            }
+        } catch (Exception e) {
+            Log.d("ERROR", e.getMessage());
+        }
         stopLocationUpdates();
     }
 
@@ -84,7 +99,7 @@ public class GpsLocationHandler implements
                     googleApiClient, this);
     }
 
-    public LatLng getLatLong() {
-        return latLng;
+    public List<Gosale.CouponsByLocation> getCoupons() {
+        return branbarn;
     }
 }
