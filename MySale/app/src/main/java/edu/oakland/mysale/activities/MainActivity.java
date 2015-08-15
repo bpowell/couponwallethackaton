@@ -75,6 +75,8 @@ public class MainActivity extends ActionBarActivity {
     public void onCreate(Bundle savedInstaceState) {
         super.onCreate(savedInstaceState);
         locationHandler = new GpsLocationHandler(this);
+        getAllBusinesses();
+        getAllCategories();
     }
 
     public void getStuff() {
@@ -254,12 +256,5 @@ public class MainActivity extends ActionBarActivity {
 
         }
         return list;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        getAllBusinesses();
-        getAllCategories();
     }
 }
