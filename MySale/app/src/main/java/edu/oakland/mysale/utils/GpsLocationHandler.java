@@ -78,7 +78,7 @@ public class GpsLocationHandler implements
         Log.i("Location(Erik)", location.getLatitude() + "," + location.getLongitude());
         try {
             HashMap<String, Integer> alreadyThere = new HashMap<>();
-            go.gosale.Gosale.ThisCouponsByLocation c = go.gosale.Gosale.CouponsByLocationInit(42.63, -80.02, 1.5);
+            go.gosale.Gosale.ThisCouponsByLocation c = go.gosale.Gosale.CouponsByLocationInit(location.getLatitude(), location.getLongitude(), 0.05);
             Log.d("TESTING", String.valueOf(c.Size()));
             branbarn = new ArrayList<>();
             for(int i=0; i<c.Size(); i++) {
