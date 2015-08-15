@@ -1,9 +1,12 @@
 package edu.oakland.mysale.layouts;
 
+import android.support.v7.widget.CardView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import java.util.List;
 
 /**
  * Created by Erik on 8/14/15.
@@ -15,9 +18,8 @@ public class CouponLayout {
     public ImageView cardImage;
     public TextView cardTitle;
 
-    public android.support.v7.widget.CardView couponInfo;
-    public RelativeLayout couponInfoRelativeLayout;
-    public LinearLayout cardInfo;
-    public TextView cardDescription;
-    public TextView cardDetail;
+    public List<CardView> locationCoupons;
+    public LinearLayout couponInfoLayout;
+    public TextView couponDescription;
+    public TextView couponDetail;
 }

@@ -1,6 +1,8 @@
 package edu.oakland.mysale.utils;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,12 +12,13 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import edu.oakland.mysale.activities.MainActivity;
+import edu.oakland.mysale.activities.MainActivity_;
 import go.gosale.Gosale;
 
 /**
@@ -24,15 +27,18 @@ import go.gosale.Gosale;
 public class GpsLocationHandler implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
+    private Activity referenceActivity;
     private GoogleApiClient googleApiClient;
     private LocationRequest locationRequest;
-    private List<List<Gosale.CouponsByLocation>> branbarn = null;
+    private static List<List<Gosale.CouponsByLocation>> branbarn = null;
 
-    public GpsLocationHandler(Context context) {
+    public GpsLocationHandler(Activity referenceActivity) {
+        this.referenceActivity = referenceActivity;
         Log.i("Location(Erik)", "GPS Location created");
-        buildGoogleApiClient(context);
+        buildGoogleApiClient(referenceActivity.getApplicationContext());
         createLocationRequest();
         googleApiClient.connect();
+        this.referenceActivity = referenceActivity;
     }
 
     protected synchronized void buildGoogleApiClient(Context context) {
@@ -78,7 +84,7 @@ public class GpsLocationHandler implements
         Log.i("Location(Erik)", location.getLatitude() + "," + location.getLongitude());
         try {
             HashMap<String, Integer> alreadyThere = new HashMap<>();
-            go.gosale.Gosale.ThisCouponsByLocation c = go.gosale.Gosale.CouponsByLocationInit(location.getLatitude(), location.getLongitude(), 0.05);
+            go.gosale.Gosale.ThisCouponsByLocation c = go.gosale.Gosale.CouponsByLocationInit(location.getLatitude(), location.getLongitude(), 0.02);
             Log.d("TESTING", String.valueOf(c.Size()));
             branbarn = new ArrayList<>();
             for(int i=0; i<c.Size(); i++) {
@@ -98,6 +104,8 @@ public class GpsLocationHandler implements
             Log.d("ERROR", e.getMessage());
         }
         stopLocationUpdates();
+
+        ((MainActivity) referenceActivity).getStuff();
     }
 
     private void getLocation() {
@@ -111,7 +119,7 @@ public class GpsLocationHandler implements
                     googleApiClient, this);
     }
 
-    public List<List<Gosale.CouponsByLocation>> getCoupons() {
+    public static List<List<Gosale.CouponsByLocation>> getCoupons() {
         return branbarn;
     }
 }

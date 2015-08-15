@@ -1,25 +1,55 @@
 package edu.oakland.mysale.activities;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
+
+import java.util.List;
 
 import edu.oakland.mysale.R;
+import edu.oakland.mysale.adapters.CouponListAdapter;
+import edu.oakland.mysale.utils.GpsLocationHandler;
+import go.gosale.Gosale;
 
 @EActivity(R.layout.activity_main)
 public class MainActivity extends Activity {
 
+    @ViewById(R.id.list)
+    ListView list;
+
+    private GpsLocationHandler locationHandler;
+    static List<List<Gosale.CouponsByLocation>> coupons;
+
+    @Override
+    public void onCreate(Bundle savedInstaceState) {
+        super.onCreate(savedInstaceState);
+        locationHandler = new GpsLocationHandler(this);
+    }
+
+    public void getStuff() {
+        List<List<Gosale.CouponsByLocation>> coupons = GpsLocationHandler.getCoupons();
+
+        CouponListAdapter adapter = new CouponListAdapter(
+                MainActivity.this,
+                list,
+                R.layout.header_card,
+                R.layout.info_card,
+                coupons
+        );
+
+        list.setAdapter(adapter);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        try {
-            go.gosale.Gosale.ThisCouponsByLocation c = go.gosale.Gosale.CouponsByLocationInit(42.63, -80.02, 1.5);
-            Log.d("TESTING", String.valueOf(c.Size()));
-        } catch (Exception e) {
-            Log.d("ERROR", e.getMessage());
-        }
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
