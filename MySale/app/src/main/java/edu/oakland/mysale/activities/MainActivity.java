@@ -55,7 +55,7 @@ public class MainActivity extends ActionBarActivity {
     @AfterViews
     public void init() {
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("coupon wallet");
+        getSupportActionBar().setTitle("Coupon Wallet");
 
         final String[] from = new String[] {"businesses"};
         final int[] to = new int[] {android.R.id.text1};
