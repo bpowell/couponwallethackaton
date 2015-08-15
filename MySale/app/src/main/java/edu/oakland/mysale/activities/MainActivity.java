@@ -84,7 +84,6 @@ public class MainActivity extends ActionBarActivity {
                 MainActivity.this,
                 list,
                 R.layout.header_card,
-                R.layout.info_card,
                 coupons
         );
 
@@ -164,11 +163,9 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 

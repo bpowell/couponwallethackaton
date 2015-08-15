@@ -11,6 +11,10 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/businessinfo" />
+            <option value="$PROJECT_DIR$/couponsbylocation" />
+            <option value="$PROJECT_DIR$/cwconfig" />
+            <option value="$PROJECT_DIR$/gosale" />
           </set>
         </option>
       </GradleProjectSettings>
