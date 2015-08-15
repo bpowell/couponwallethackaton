@@ -257,14 +257,23 @@ public class MainActivity extends ActionBarActivity {
         try {
             HashMap<String, Integer> alreadyThere = new HashMap<>();
             Gosale.ThisCouponsList c = Gosale.CouponsListInit(pattern);
-            for (int i = 0; i < c.Size(); i++) {
-                go.gosale.Gosale.CouponsByLocation a = c.Get(i);
-                if(alreadyThere.containsKey(a.getId_business_id())) {
-                    list.add(a);
-                } else {
-                    int size = list.size() + 1;
-                    alreadyThere.put(a.getId_business_id(), size);
-                    list.add(a);
+            if(c.Size()==0) {
+                Gosale.CouponsByLocation n = Gosale.EmptyCouponsByLocation();
+                n.setImage("/fake/path");
+                n.setId_business_id("0");
+                n.setBusinessName("Opps! Something went wrong.");
+                n.setDescription("We are sorry, there are no coupons at this time!");
+                list.add(n);
+            } else {
+                for (int i = 0; i < c.Size(); i++) {
+                    go.gosale.Gosale.CouponsByLocation a = c.Get(i);
+                    if (alreadyThere.containsKey(a.getId_business_id())) {
+                        list.add(a);
+                    } else {
+                        int size = list.size() + 1;
+                        alreadyThere.put(a.getId_business_id(), size);
+                        list.add(a);
+                    }
                 }
             }
 
