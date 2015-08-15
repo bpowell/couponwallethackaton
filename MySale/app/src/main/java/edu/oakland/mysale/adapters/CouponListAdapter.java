@@ -57,8 +57,7 @@ public class CouponListAdapter extends ArrayAdapter<Gosale.CouponsByLocation> {
             try {
                 Gosale.BusinessInfo businessInfo = Gosale.BusinessInfoInit(Integer.parseInt(coupon.getId_business_id()));
                 Log.d("hallelujeahjeu", businessInfo.getLogo());
-                Log.d("hallelujeahjeu", URLEncoder.encode(businessInfo.getLogo(), "UTF-8"));
-                ImageProcessing.setImageFromUrl(couponLayout.cardImage, URLEncoder.encode(businessInfo.getLogo(), "UTF-8"));
+                ImageProcessing.setImageFromUrl(couponLayout.cardImage, businessInfo.getLogo().replace(" ", "%21"));
             } catch (Exception e) {
                 e.printStackTrace();
             }
