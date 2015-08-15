@@ -1,4 +1,4 @@
-package edu.oakland.mysale.Layouts;
+package edu.oakland.mysale.layouts;
 
 import android.widget.ImageView;
 import android.widget.LinearLayout;
