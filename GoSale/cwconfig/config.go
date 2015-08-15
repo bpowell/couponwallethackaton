@@ -1,4 +1,4 @@
-package config
+package cwconfig
 
 import (
 	"encoding/json"
