@@ -22,6 +22,8 @@ def AAVersion = '3.3.2'
 dependencies {
     apt "org.androidannotations:androidannotations:$AAVersion"
     compile "org.androidannotations:androidannotations-api:$AAVersion"
+    compile project(':couponsbylocation')
+    //compile project(':cwconfig')
 }
 
 apt {
