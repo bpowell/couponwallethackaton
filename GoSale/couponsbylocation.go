@@ -2,6 +2,7 @@ package gosale
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -54,7 +55,6 @@ type CouponsByLocation struct {
 }
 
 var couponsByLocation []CouponsByLocation
-var CouponsByLocationSize int
 
 func GetCouponsByLocation(lat, lon, radius float64) {
 	config, err := NewConfig()
@@ -83,10 +83,16 @@ func GetCouponsByLocation(lat, lon, radius float64) {
 		fmt.Println(err)
 		return
 	}
-
-	CouponsByLocationSize = len(couponsByLocation)
 }
 
-func Get(next int) CouponsByLocation {
-	return couponsByLocation[next]
+func Get(next int) (*CouponsByLocation, error) {
+	if next < 0 {
+		return &CouponsByLocation{}, errors.New("Can't go below 0")
+	}
+
+	if next > len(couponsByLocation) {
+		return &CouponsByLocation{}, errors.New("Can't go above length of array")
+	}
+
+	return &couponsByLocation[next], nil
 }
